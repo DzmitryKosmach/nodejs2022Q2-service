@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { AlbumsService } from 'src/albums/albums.service';
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ArtistsService } from 'src/artists/artists.service';
@@ -15,22 +15,16 @@ import { IFavoritesRepsonse } from '../interfaces/favorites.response.interface';
 
 @Injectable()
 export class InMemoryFavoritesStorage implements FavoritesStore {
-  //https://docs.nestjs.com/fundamentals/injection-scopes#usage
-
   //constructor(@Inject('TracksService') private tracksStorage: TracksService) {}
   favorites: FavoritesEntity = new FavoritesEntity();
   constructor(
+    @Inject(forwardRef(() => TracksService))
     private readonly tracksService: TracksService,
+    @Inject(forwardRef(() => AlbumsService))
     private readonly albumsService: AlbumsService,
+    @Inject(forwardRef(() => ArtistsService))
     private readonly artistsService: ArtistsService,
   ) {}
-
-  //constructor(@Inject('TracksStore') tracksStore: TracksStore) {
-  //  const tracksStore1 = tracksStore;
-  //}
-
-  /* @Inject('TracksStore')
-  private tracksStore: TracksStore; */
 
   getAll = async (): Promise<IFavoritesRepsonse> => {
     const favoritesRepsonse = new FavoritesRepsonse();
@@ -92,7 +86,8 @@ export class InMemoryFavoritesStorage implements FavoritesStore {
   deleteTrack = async (id: string): Promise<boolean> => {
     //const track = await this.artistsService.findOne(id);
     const lengthBefore = this.favorites.tracks.length;
-    this.favorites.tracks = this.favorites.tracks.filter((t) => t !== id);
+    const tracks = this.favorites.tracks.filter((t) => t !== id);
+    this.favorites.tracks = tracks;
     const lengthAfter = this.favorites.tracks.length;
     const isDeleted = lengthBefore !== lengthAfter;
     return isDeleted;

@@ -48,4 +48,10 @@ export class InMemoryAlbumsStorage implements AlbumsStore {
     return isDeleted;
     //removeUserFromTasks(id);
   };
+
+  nullArtist = async (id: string): Promise<void> => {
+    this.albums.forEach((t) => {
+      if (t.artistId === id) t.artistId = null;
+    });
+  };
 }

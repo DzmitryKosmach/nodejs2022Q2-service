@@ -12,4 +12,6 @@ export interface AlbumsStore {
   create: (dto: CreateAlbumDto) => Promise<AlbumEntity>;
 
   remove: (id: string) => Promise<boolean>;
+
+  nullArtist: (id: string) => Promise<void>;
 }
