@@ -9,5 +9,6 @@ import { ArtistsService } from './artists.service';
     ArtistsService,
     { provide: 'ArtistsStore', useClass: InMemoryArtistsStorage },
   ],
+  exports: [ArtistsService],
 })
 export class ArtistsModule {}

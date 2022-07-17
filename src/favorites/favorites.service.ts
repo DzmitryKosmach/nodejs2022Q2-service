@@ -12,31 +12,26 @@ export class FavoritesService {
   }
 
   addTrack(id: string) {
-    this.storage.addTrack(id);
+    return this.storage.addTrack(id);
   }
 
   addAlbum(id: string) {
-    console.log('id: ' + id);
-    return Promise<void>;
+    return this.storage.addAlbum(id);
   }
 
   addArtist(id: string) {
-    console.log('id: ' + id);
-    return Promise<void>;
+    return this.storage.addArtist(id);
   }
 
   deleteTrack(id: string) {
-    console.log('id: ' + id);
-    return Promise<void>;
+    return this.storage.deleteTrack(id);
   }
 
   deleteAlbum(id: string) {
-    console.log('id: ' + id);
-    return Promise<void>;
+    return this.storage.deleteAlbum(id);
   }
 
   deleteArtist(id: string) {
-    console.log('id: ' + id);
-    return Promise<void>;
+    return this.storage.deleteArtist(id);
   }
 }

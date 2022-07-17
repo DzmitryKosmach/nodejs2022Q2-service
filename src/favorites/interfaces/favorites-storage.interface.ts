@@ -1,19 +1,20 @@
 //import { CreateFavoritesDto } from '../dto/create-favorites.dto';
 //import { UpdateFavoritesDto } from '../dto/update-favorites.dto';
-import { FavoritesEntity } from '../entities/favorites.entity';
+//import { FavoritesEntity } from '../entities/favorites.entity';
+import { IFavoritesRepsonse } from './favorites.response.interface';
 
 export interface FavoritesStore {
-  getAll: () => Promise<FavoritesEntity>;
+  getAll: () => Promise<IFavoritesRepsonse>;
 
-  addTrack: (id: string) => Promise<void>;
+  addTrack: (id: string) => Promise<boolean>;
 
-  addAlbum: (id: string) => Promise<void>;
+  addAlbum: (id: string) => Promise<boolean>;
 
-  addArtist: (id: string) => Promise<void>;
+  addArtist: (id: string) => Promise<boolean>;
 
-  deleteTrack: (id: string) => Promise<void>;
+  deleteTrack: (id: string) => Promise<boolean>;
 
-  deleteAlbum: (id: string) => Promise<void>;
+  deleteAlbum: (id: string) => Promise<boolean>;
 
-  deleteArtist: (id: string) => Promise<void>;
+  deleteArtist: (id: string) => Promise<boolean>;
 }

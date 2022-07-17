@@ -1,8 +1,9 @@
-import { Album } from 'src/albums/interfaces/album.interface';
-import { Track } from 'src/tracks/interfaces/track.interface';
+import { AlbumEntity } from 'src/albums/entities/album.entity';
+import { ArtistEntity } from 'src/artists/entities/artist.entity';
+import { TrackEntity } from 'src/tracks/entities/track.entity';
 
-export interface FavoritesRepsonse {
-  artists: Artist[];
-  albums: Album[];
-  tracks: Track[];
+export interface IFavoritesRepsonse {
+  artists: ArtistEntity[];
+  albums: AlbumEntity[];
+  tracks: TrackEntity[];
 }

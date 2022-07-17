@@ -9,5 +9,6 @@ import { InMemoryAlbumsStorage } from './store/in-memory.albums.storage';
     AlbumsService,
     { provide: 'AlbumsStore', useClass: InMemoryAlbumsStorage },
   ],
+  exports: [AlbumsService],
 })
 export class AlbumsModule {}
