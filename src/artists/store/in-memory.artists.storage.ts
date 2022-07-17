@@ -14,9 +14,9 @@ export class InMemoryArtistsStorage implements ArtistsStore {
   constructor(
     @Inject(forwardRef(() => TracksService))
     private readonly tracksService: TracksService,
-    @Inject(forwardRef(() => TracksService))
+    @Inject(forwardRef(() => AlbumsService))
     private readonly albumsService: AlbumsService,
-    @Inject(forwardRef(() => TracksService))
+    @Inject(forwardRef(() => FavoritesService))
     private readonly favoritesService: FavoritesService,
   ) {}
 
@@ -57,6 +57,5 @@ export class InMemoryArtistsStorage implements ArtistsStore {
     this.albumsService.nullArtist(id);
     this.favoritesService.deleteArtist(id);
     return isDeleted;
-    //removeUserFromTasks(id);
   };
 }

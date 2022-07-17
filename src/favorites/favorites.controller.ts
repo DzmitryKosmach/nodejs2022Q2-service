@@ -1,12 +1,8 @@
 import {
-  //Body,
   Controller,
-  //Delete,
   Get,
-  //NotFoundException,
   Param,
   Post,
-  //Put,
   ParseUUIDPipe,
   NotFoundException,
   Delete,
@@ -14,10 +10,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { StatusCodes } from 'http-status-codes';
-//import { FavoritesEntity } from './entities/favorites.entity';
 import { FavoritesService } from './favorites.service';
-//import { UpdateFavoritesDto } from './dto/update-favorites.dto';
-//import { CreateFavoritesDto } from './dto/create-favorites.dto';
 
 @Controller('favs')
 export class FavoritesController {
@@ -34,7 +27,6 @@ export class FavoritesController {
     if (!isAdded) {
       throw new UnprocessableEntityException();
     }
-    //return favorites;
   }
 
   @Post('artist/:id')
@@ -43,7 +35,6 @@ export class FavoritesController {
     if (!isAdded) {
       throw new UnprocessableEntityException();
     }
-    //return favorites;
   }
 
   @Post('album/:id')
@@ -52,7 +43,6 @@ export class FavoritesController {
     if (!isAdded) {
       throw new UnprocessableEntityException();
     }
-    //return favorites;
   }
 
   @Delete('track/:id')
