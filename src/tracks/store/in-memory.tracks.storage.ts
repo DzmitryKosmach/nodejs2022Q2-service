@@ -51,4 +51,16 @@ export class InMemoryTracksStorage implements TracksStore {
     return isDeleted;
     //removeUserFromTasks(id);
   };
+
+  nullArtist = async (id: string): Promise<void> => {
+    this.tracks.forEach((t) => {
+      if (t.artistId === id) t.artistId = null;
+    });
+  };
+
+  nullAlbum = async (id: string): Promise<void> => {
+    this.tracks.forEach((t) => {
+      if (t.albumId === id) t.albumId = null;
+    });
+  };
 }

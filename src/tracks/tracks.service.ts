@@ -26,4 +26,12 @@ export class TracksService {
   remove(id: string) {
     return this.storage.remove(id);
   }
+
+  nullArtist(id: string) {
+    return this.storage.nullArtist(id);
+  }
+
+  nullAlbum(id: string) {
+    return this.storage.nullAlbum(id);
+  }
 }

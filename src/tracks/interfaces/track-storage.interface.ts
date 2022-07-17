@@ -12,4 +12,8 @@ export interface TracksStore {
   create: (dto: CreateTrackDto) => Promise<TrackEntity>;
 
   remove: (id: string) => Promise<boolean>;
+
+  nullArtist: (id: string) => Promise<void>;
+
+  nullAlbum: (id: string) => Promise<void>;
 }

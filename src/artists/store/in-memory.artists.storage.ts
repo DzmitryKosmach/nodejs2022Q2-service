@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { TracksService } from 'src/tracks/tracks.service';
 import { CreateArtistDto } from '../dto/create-artist.dto';
 import { UpdateArtistDto } from '../dto/update-artist.dto';
 import { ArtistEntity } from '../entities/artist.entity';
@@ -7,6 +8,8 @@ import { ArtistsStore } from '../interfaces/artist-storage.interface';
 @Injectable()
 export class InMemoryArtistsStorage implements ArtistsStore {
   private artists: ArtistEntity[] = [];
+
+  constructor(private readonly tracksService: TracksService) {}
 
   getAll = async (): Promise<ArtistEntity[]> => {
     return this.artists;
@@ -41,6 +44,7 @@ export class InMemoryArtistsStorage implements ArtistsStore {
     this.artists = this.artists.filter((u) => u.id !== id);
     const lengthAfter = this.artists.length;
     const isDeleted = lengthBefore !== lengthAfter;
+    this.tracksService.nullArtist(id);
     return isDeleted;
     //removeUserFromTasks(id);
   };
