@@ -10,7 +10,6 @@ import {
   ParseUUIDPipe,
   HttpCode,
 } from '@nestjs/common';
-//import { AlbumEntity } from './entities/album.entity';
 import { AlbumsService } from './albums.service';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
@@ -43,7 +42,6 @@ export class AlbumsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() dto: UpdateAlbumDto,
   ) {
-    console.log('PUT album');
     const album = await this.albumsService.update(id, dto);
     if (album) return album;
     throw new NotFoundException();

@@ -1,0 +1,33 @@
+version: '3'
+services:
+  node:
+    image: nest-app
+    build: .
+    ports:
+      - ${PORT_HOST}:${PORT}
+    depends_on:
+      - db
+    restart: always
+    environment:
+      - PORT=${PORT}
+    volumes:      
+      - ./src:/usr/app/src
+    networks:
+      - net
+  db:
+    image: postgres-14.4-alpine
+    build: ./database/
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
+    networks:
+      - net
+networks:
+  net:
+    driver: bridge
