@@ -1,3 +1,27 @@
+## Prerequisites
+
+    Download and install docker
+    Clone repository
+
+## How to start
+
+    Write in console in root folder:
+
+```
+docker-compose up
+```
+
+## Script for vulnerabilities scanning
+
+```
+scan:image
+```
+
+## The image is pushed to DockerHub
+
+The [image](https://hub.docker.com/repository/docker/dzmitrykosmach/nest-app)
+
+
 # Home Library Service
 
 ## Prerequisites
