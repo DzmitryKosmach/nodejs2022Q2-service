@@ -23,7 +23,7 @@ export class InMemoryUsersStorage implements UsersStore {
       const user = this.users[userIndex];
       if (user.password === dto.oldPassword) {
         user.password = dto.newPassword;
-        user.updateTimeStampAndVersion();
+        //user.updateTimeStampAndVersion();
         this.users[userIndex] = user;
         return user;
       } else {
@@ -34,9 +34,11 @@ export class InMemoryUsersStorage implements UsersStore {
 
   create = async (dto: CreateUserDto): Promise<UserEntity> => {
     const { login, password } = dto;
-    const newUser = new UserEntity(login, password);
-    this.users.push(newUser);
-    return newUser;
+    console.log(login, password);
+    //const newUser = new UserEntity(login, password);
+    //this.users.push(newUser);
+    //return newUser;
+    return new UserEntity();
   };
 
   remove = async (id: string): Promise<boolean> => {

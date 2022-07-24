@@ -14,6 +14,8 @@ export class InMemoryTracksStorage implements TracksStore {
     private readonly favoritesService: FavoritesService,
   ) {}
 
+  save: (track: TrackEntity) => Promise<void>;
+
   getAll = async (): Promise<TrackEntity[]> => {
     return this.tracks;
   };
@@ -38,13 +40,9 @@ export class InMemoryTracksStorage implements TracksStore {
   };
 
   create = async (dto: CreateTrackDto): Promise<TrackEntity> => {
-    const { name, duration, artistId, albumId } = dto;
-    const newTrack = new TrackEntity(
-      name,
-      duration,
-      artistId || null,
-      albumId || null,
-    );
+    //const { name, duration, artistId, albumId } = dto;
+    console.log(dto);
+    const newTrack = new TrackEntity();
     this.tracks.push(newTrack);
     return newTrack;
   };

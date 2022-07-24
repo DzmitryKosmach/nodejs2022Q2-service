@@ -1,10 +1,12 @@
 //import { CreateFavoritesDto } from '../dto/create-favorites.dto';
 //import { UpdateFavoritesDto } from '../dto/update-favorites.dto';
 //import { FavoritesEntity } from '../entities/favorites.entity';
-import { IFavoritesRepsonse } from './favorites.response.interface';
+import { FavoritesEntityORM } from '../entities/favorites-orm.entity';
+//import { FavoritesEntity } from '../entities/favorites.entity';
+//import { IFavoritesResponse } from './favorites.response.interface';
 
 export interface FavoritesStore {
-  getAll: () => Promise<IFavoritesRepsonse>;
+  getAll: () => Promise<FavoritesEntityORM>;
 
   addTrack: (id: string) => Promise<boolean>;
 

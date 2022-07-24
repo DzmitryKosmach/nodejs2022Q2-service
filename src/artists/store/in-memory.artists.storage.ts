@@ -42,8 +42,9 @@ export class InMemoryArtistsStorage implements ArtistsStore {
   };
 
   create = async (dto: CreateArtistDto): Promise<ArtistEntity> => {
-    const { name, grammy } = dto;
-    const newArtist = new ArtistEntity(name, grammy);
+    //const { name, grammy } = dto;
+    console.log(dto);
+    const newArtist = new ArtistEntity();
     this.artists.push(newArtist);
     return newArtist;
   };

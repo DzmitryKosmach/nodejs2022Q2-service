@@ -1,15 +1,42 @@
-import { v4 as uuid } from 'uuid';
+//import { v4 as uuid } from 'uuid';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  VersionColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '../interfaces/user.interface';
 
+@Entity('user')
 export class UserEntity implements User {
-  id: string = uuid();
-  login = 'user';
-  password = 'P@55w0rd';
-  version = 1;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  login: string;
+
+  @Column()
+  password: string;
+
+  @VersionColumn()
+  version: number;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
   createdAt: number;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
   updatedAt: number;
 
-  constructor(userLogin: string, userPassword: string) {
+  /* constructor(userLogin: string, userPassword: string) {
     this.login = userLogin;
     this.password = userPassword;
     const timeStamp = this.getTimeStamp();
@@ -24,7 +51,7 @@ export class UserEntity implements User {
 
   getTimeStamp() {
     return new Date().getTime();
-  }
+  } */
 
   static toResponse(user: UserEntity): {
     id: string;

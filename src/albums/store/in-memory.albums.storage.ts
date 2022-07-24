@@ -39,8 +39,9 @@ export class InMemoryAlbumsStorage implements AlbumsStore {
   };
 
   create = async (dto: CreateAlbumDto): Promise<AlbumEntity> => {
-    const { name, year, artistId } = dto;
-    const newAlbum = new AlbumEntity(name, year, artistId || null);
+    //const { name, year, artistId } = dto;
+    console.log(dto);
+    const newAlbum = new AlbumEntity();
     this.albums.push(newAlbum);
     return newAlbum;
   };

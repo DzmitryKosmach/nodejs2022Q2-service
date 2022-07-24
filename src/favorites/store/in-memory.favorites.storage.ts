@@ -6,17 +6,20 @@ import { ArtistEntity } from 'src/artists/entities/artist.entity';
 import { TrackEntity } from 'src/tracks/entities/track.entity';
 //import { TracksStore } from 'src/tracks/interfaces/track-storage.interface';
 import { TracksService } from 'src/tracks/tracks.service';
+import { FavoritesEntityORM } from '../entities/favorites-orm.entity';
+import { FavoritesEntity } from '../entities/favorites.entity';
+//import { FavoritesEntityORM } from '../entities/favorites-orm.entity';
 //import { CreateFavoritesDto } from '../dto/create-favorites.dto';
 //import { UpdateFavoritesDto } from '../dto/update-favorites.dto';
-import { FavoritesEntity } from '../entities/favorites.entity';
-import { FavoritesRepsonse } from '../entities/favorites.response';
+//import { FavoritesEntity } from '../entities/favorites.entity';
+//import { FavoritesResponse } from '../entities/favorites.response';
 import { FavoritesStore } from '../interfaces/favorites-storage.interface';
-import { IFavoritesRepsonse } from '../interfaces/favorites.response.interface';
+//import { IFavoritesResponse } from '../interfaces/favorites.response.interface';
 
 @Injectable()
 export class InMemoryFavoritesStorage implements FavoritesStore {
   //constructor(@Inject('TracksService') private tracksStorage: TracksService) {}
-  favorites: FavoritesEntity = new FavoritesEntity();
+  favorites = new FavoritesEntity();
   constructor(
     @Inject(forwardRef(() => TracksService))
     private readonly tracksService: TracksService,
@@ -26,31 +29,31 @@ export class InMemoryFavoritesStorage implements FavoritesStore {
     private readonly artistsService: ArtistsService,
   ) {}
 
-  getAll = async (): Promise<IFavoritesRepsonse> => {
-    const favoritesRepsonse = new FavoritesRepsonse();
+  getAll = async (): Promise<FavoritesEntityORM> => {
+    const favoritesResponse = new FavoritesEntityORM();
 
     const artists: ArtistEntity[] = [];
     this.favorites.artists.forEach(async (id) => {
       const artist = await this.artistsService.findOne(id);
       artists.push(artist);
     });
-    favoritesRepsonse.artists = artists;
+    favoritesResponse.artists = artists;
 
     const albums: AlbumEntity[] = [];
     this.favorites.albums.forEach(async (id) => {
       const album = await this.albumsService.findOne(id);
       albums.push(album);
     });
-    favoritesRepsonse.albums = albums;
+    favoritesResponse.albums = albums;
 
     const tracks: TrackEntity[] = [];
     this.favorites.tracks.forEach(async (id) => {
       const track = await this.tracksService.findOne(id);
       tracks.push(track);
     });
-    favoritesRepsonse.tracks = tracks;
+    favoritesResponse.tracks = tracks;
 
-    return favoritesRepsonse;
+    return favoritesResponse;
   };
 
   addTrack = async (id: string): Promise<boolean> => {

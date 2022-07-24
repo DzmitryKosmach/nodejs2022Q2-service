@@ -1,13 +1,19 @@
-import { v4 as uuid } from 'uuid';
+//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
+import { FavoritesEntityORM } from 'src/favorites/entities/favorites-orm.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Artist } from '../interfaces/artist.interface';
 
+@Entity('artist')
 export class ArtistEntity implements Artist {
-  id: string = uuid();
-  name: string;
-  grammy = false;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  constructor(artistName: string, artistGrammy: boolean) {
-    this.name = artistName || '';
-    this.grammy = artistGrammy || false;
-  }
+  @Column()
+  name: string;
+
+  @Column()
+  grammy: boolean;
+
+  @ManyToOne(() => FavoritesEntityORM, (favorites) => favorites.artists)
+  favorites: FavoritesEntityORM;
 }

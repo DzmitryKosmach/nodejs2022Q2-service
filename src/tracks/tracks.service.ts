@@ -1,10 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
+import { TrackEntity } from './entities/track.entity';
 import { TracksStore } from './interfaces/track-storage.interface';
 
 @Injectable()
 export class TracksService {
+  [x: string]: any;
   constructor(@Inject('TracksStore') private storage: TracksStore) {}
 
   create(createUserDto: CreateTrackDto) {
@@ -25,6 +27,10 @@ export class TracksService {
 
   remove(id: string) {
     return this.storage.remove(id);
+  }
+
+  save(track: TrackEntity) {
+    this.storage.save(track);
   }
 
   nullArtist(id: string) {

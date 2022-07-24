@@ -1,19 +1,28 @@
-import { v4 as uuid } from 'uuid';
+//import { ArtistEntity } from 'src/artists/entities/artist.entity';
+//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
+import { FavoritesEntityORM } from 'src/favorites/entities/favorites-orm.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Album } from '../interfaces/album.interface';
 
+@Entity('album')
 export class AlbumEntity implements Album {
-  id: string = uuid();
-  name: string;
-  year: number;
-  artistId: string | null = null;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  constructor(
-    albumName: string,
-    albumYear: number,
-    albumArtistId: string | null,
-  ) {
-    this.name = albumName;
-    this.year = albumYear;
-    this.artistId = albumArtistId;
-  }
+  @Column()
+  name: string;
+
+  @Column()
+  year: number;
+
+  @Column('varchar', { length: 36, nullable: true })
+  /* @ManyToOne(() => ArtistEntity, (artist: ArtistEntity) => artist.id, {
+    onDelete: 'SET NULL',
+    nullable: true,
+    eager: true,
+  }) */
+  artistId: string | null;
+
+  @ManyToOne(() => FavoritesEntityORM, (favorites) => favorites.albums)
+  favorites: FavoritesEntityORM;
 }
