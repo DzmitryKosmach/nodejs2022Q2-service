@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-//import { TrackEntity } from 'src/tracks/entities/track.entity';
 import { Repository } from 'typeorm';
 import { CreateTrackDto } from '../dto/create-track.dto';
 import { UpdateTrackDto } from '../dto/update-track.dto';
@@ -13,10 +11,7 @@ export class RepositoryTracksStorage implements TracksStore {
   constructor(
     @InjectRepository(TrackEntity)
     private trackRepository: Repository<TrackEntity>,
-  ) /* @InjectRepository(TrackEntity)
-    private trackRepository: Repository<TrackEntity>,
-    @InjectRepository(FavoritesEntity)
-    private favoritesRepository: Repository<FavoritesEntity>, */ {}
+  ) {}
 
   getAll = async (): Promise<TrackEntity[]> => {
     return this.trackRepository.find();
@@ -43,7 +38,6 @@ export class RepositoryTracksStorage implements TracksStore {
     if (deletionRes.affected === 0) {
       return false;
     } else {
-      //this.favoritesService.deleteTrack(id);
       return true;
     }
   };
