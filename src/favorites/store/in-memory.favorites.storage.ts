@@ -4,17 +4,10 @@ import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ArtistsService } from 'src/artists/artists.service';
 import { ArtistEntity } from 'src/artists/entities/artist.entity';
 import { TrackEntity } from 'src/tracks/entities/track.entity';
-//import { TracksStore } from 'src/tracks/interfaces/track-storage.interface';
 import { TracksService } from 'src/tracks/tracks.service';
 import { FavoritesEntityORM } from '../entities/favorites-orm.entity';
 import { FavoritesEntity } from '../entities/favorites.entity';
-//import { FavoritesEntityORM } from '../entities/favorites-orm.entity';
-//import { CreateFavoritesDto } from '../dto/create-favorites.dto';
-//import { UpdateFavoritesDto } from '../dto/update-favorites.dto';
-//import { FavoritesEntity } from '../entities/favorites.entity';
-//import { FavoritesResponse } from '../entities/favorites.response';
 import { FavoritesStore } from '../interfaces/favorites-storage.interface';
-//import { IFavoritesResponse } from '../interfaces/favorites.response.interface';
 
 @Injectable()
 export class InMemoryFavoritesStorage implements FavoritesStore {
