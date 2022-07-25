@@ -8,9 +8,6 @@ export class FavoritesEntityORM {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('varchar', { length: 36, nullable: true })
-  userId: string;
-
   //Column('varchar', { array: true })
   @OneToMany(() => ArtistEntity, (artist) => artist.favorites, {
     cascade: true,

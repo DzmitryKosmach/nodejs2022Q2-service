@@ -37,7 +37,7 @@ export class RepositoryFavoritesStorage
     const countFavorites = await this.getCountFavorites();
     if (countFavorites < 1) {
       const favorites = new FavoritesEntityORM();
-      favorites.userId = 'id';
+      //favorites.userId = 'id';
       //const userId = { id: 'id1' };
       const createdFavorites = this.favoritesRepository.create(favorites);
       this.favoritesRepository.save(createdFavorites);
@@ -66,6 +66,9 @@ export class RepositoryFavoritesStorage
       relations: { tracks: true, albums: true, artists: true },
     });
     console.log('Favs getAll =' + JSON.stringify(favorites));
+    console.log(
+      '-----------------------------------------------------------------',
+    );
     return favorites[0];
   };
 
@@ -76,7 +79,7 @@ export class RepositoryFavoritesStorage
     const tracks = favorites.tracks;
     tracks.push(track);
     favorites.tracks = tracks;
-    this.favoritesRepository.save(favorites);
+    await this.favoritesRepository.save(favorites);
     return true;
   };
 
@@ -87,7 +90,7 @@ export class RepositoryFavoritesStorage
     const albums = favorites.albums;
     albums.push(album);
     favorites.albums = albums;
-    this.favoritesRepository.save(favorites);
+    await this.favoritesRepository.save(favorites);
     return true;
   };
 
@@ -95,11 +98,11 @@ export class RepositoryFavoritesStorage
     const favorites = await this.getFavorites();
     const artist = await this.artistsService.findOne(artistId);
     if (!artist) return false;
-    favorites.artists.push(artist);
-    /* const artists = favorites.artists;
+    //favorites.artists.push(artist);
+    const artists = favorites.artists;
     artists.push(artist);
-    favorites.artists = artists; */
-    this.favoritesRepository.save(favorites);
+    favorites.artists = artists;
+    await this.favoritesRepository.save(favorites);
     return true;
   };
 
@@ -110,7 +113,7 @@ export class RepositoryFavoritesStorage
     tracks = tracks.filter((t) => t.id !== id);
     const lengthAfter = tracks.length;
     favorites.tracks = tracks;
-    this.favoritesRepository.save(favorites);
+    await this.favoritesRepository.save(favorites);
     const isDeleted = lengthBefore !== lengthAfter;
     return isDeleted;
   };
@@ -122,7 +125,7 @@ export class RepositoryFavoritesStorage
     albums = albums.filter((t) => t.id !== id);
     const lengthAfter = albums.length;
     favorites.albums = albums;
-    this.favoritesRepository.save(favorites);
+    await this.favoritesRepository.save(favorites);
     const isDeleted = lengthBefore !== lengthAfter;
     return isDeleted;
 
@@ -143,7 +146,7 @@ export class RepositoryFavoritesStorage
     artists = artists.filter((t) => t.id !== id);
     const lengthAfter = artists.length;
     favorites.artists = artists;
-    this.favoritesRepository.save(favorites);
+    await this.favoritesRepository.save(favorites);
     const isDeleted = lengthBefore !== lengthAfter;
     return isDeleted;
   };
