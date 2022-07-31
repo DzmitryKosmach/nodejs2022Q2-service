@@ -1,26 +1,32 @@
 ## Prerequisites
 
-    Download and install docker
-    Clone repository
+Download and install docker.
+Clone repository.
 
-## How to start
+## How to run migrations
 
-    Write in console in root folder:
+Write in console in root folder:
 
 ```
 docker-compose up
 ```
 
-## Script for vulnerabilities scanning
+After error write the command in another console:
 
 ```
-scan:image
+npm run migration:run
 ```
 
-## The image is pushed to DockerHub
+When the migration is successfully completed, stop the containers in the first console:
 
-The [image](https://hub.docker.com/repository/docker/dzmitrykosmach/nest-app)
+```
+ctrl + c
+```
+and repeatedly:
 
+```
+docker-compose up
+```
 
 # Home Library Service
 
