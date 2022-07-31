@@ -1,6 +1,4 @@
-//import { ArtistEntity } from 'src/artists/entities/artist.entity';
-//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-import { FavoritesEntityORM } from 'src/favorites/entities/favorites-orm.entity';
+import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Album } from '../interfaces/album.interface';
 
@@ -23,6 +21,6 @@ export class AlbumEntity implements Album {
   }) */
   artistId: string | null;
 
-  @ManyToOne(() => FavoritesEntityORM, (favorites) => favorites.albums)
-  favorites: FavoritesEntityORM;
+  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.albums)
+  favorites: FavoritesEntity;
 }

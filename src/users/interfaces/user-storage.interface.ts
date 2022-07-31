@@ -1,7 +1,6 @@
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdatePasswordDto } from '../dto/update-password.dto';
 import { UserEntity } from '../entities/user.entity';
-//import { UserDTO } from '../dto/user.dto';
 
 export interface UsersStore {
   getAll: () => Promise<UserEntity[]>;

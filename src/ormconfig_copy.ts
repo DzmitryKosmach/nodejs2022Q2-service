@@ -3,17 +3,12 @@ import { DataSourceOptions } from 'typeorm';
 
 dotenv.config();
 
-const {
-  POSTGRES_HOST,
-  POSTGRES_PORT,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_DB,
-} = process.env;
+const { POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } =
+  process.env;
 
 export default {
   type: 'postgres',
-  host: POSTGRES_HOST,
+  host: 'localhost',
   port: Number(POSTGRES_PORT),
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
@@ -26,6 +21,6 @@ export default {
     'dist/**/entities/*.entity.{ts,js}',
   ],
   migrationsRun: true,
-  migrations: [`${__dirname}/src/migration/*{.ts,.js}`],
+  migrations: ['src/migration/*{.ts,.js}'],
   migrationsTableName: 'MyMigrations',
 } as DataSourceOptions;

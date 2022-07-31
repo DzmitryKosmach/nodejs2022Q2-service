@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-//import { TrackEntity } from 'src/tracks/entities/track.entity';
 import { Repository } from 'typeorm';
 import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
@@ -43,16 +41,7 @@ export class RepositoryAlbumsStorage implements AlbumsStore {
     if (deletionRes.affected === 0) {
       return false;
     } else {
-      //this.trackRepository.nullAlbum(id);
-      //this.favoritesRepository.deleteAlbum(id);
       return true;
     }
-  };
-
-  nullArtist = async (id: string): Promise<void> => {
-    console.log('Artist id = ' + id);
-    /* this.albums.forEach((t) => {
-      if (t.artistId === id) t.artistId = null;
-    }); */
   };
 }

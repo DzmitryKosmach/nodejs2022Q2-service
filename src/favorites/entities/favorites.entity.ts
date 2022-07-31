@@ -2,29 +2,27 @@ import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ArtistEntity } from 'src/artists/entities/artist.entity';
 import { TrackEntity } from 'src/tracks/entities/track.entity';
 import { Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Favorites } from '../interfaces/favorites.interface';
 
 @Entity('favorites')
-export class FavoritesEntity implements Favorites {
+export class FavoritesEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  //@Column('varchar', { array: true })
-  @OneToMany(() => ArtistEntity, (artist) => artist.id, {
+  @OneToMany(() => ArtistEntity, (artist) => artist.favorites, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  artists: string[];
+  artists: ArtistEntity[];
 
-  @OneToMany(() => AlbumEntity, (album) => album.id, {
+  @OneToMany(() => AlbumEntity, (album) => album.favorites, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  albums: string[];
+  albums: AlbumEntity[];
 
-  @OneToMany(() => TrackEntity, (track) => track.id, {
+  @OneToMany(() => TrackEntity, (track) => track.favorites, {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  tracks: string[];
+  tracks: TrackEntity[];
 }

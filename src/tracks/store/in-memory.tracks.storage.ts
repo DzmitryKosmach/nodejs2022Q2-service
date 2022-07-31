@@ -1,12 +1,10 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { FavoritesService } from 'src/favorites/favorites.service';
-import { CreateTrackDto } from '../dto/create-track.dto';
 import { UpdateTrackDto } from '../dto/update-track.dto';
 import { TrackEntity } from '../entities/track.entity';
-import { TracksStore } from '../interfaces/track-storage.interface';
 
 @Injectable()
-export class InMemoryTracksStorage implements TracksStore {
+export class InMemoryTracksStorage {
   private tracks: TrackEntity[] = [];
 
   constructor(
@@ -39,9 +37,7 @@ export class InMemoryTracksStorage implements TracksStore {
     return track;
   };
 
-  create = async (dto: CreateTrackDto): Promise<TrackEntity> => {
-    //const { name, duration, artistId, albumId } = dto;
-    console.log(dto);
+  create = async (): Promise<TrackEntity> => {
     const newTrack = new TrackEntity();
     this.tracks.push(newTrack);
     return newTrack;

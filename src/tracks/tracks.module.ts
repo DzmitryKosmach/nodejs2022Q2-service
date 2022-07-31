@@ -7,11 +7,7 @@ import { TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([TrackEntity]),
-    //forwardRef(() => TracksModule),
-    //forwardRef(() => FavoritesModule)
-  ],
+  imports: [TypeOrmModule.forFeature([TrackEntity])],
   controllers: [TracksController],
   providers: [
     TracksService,

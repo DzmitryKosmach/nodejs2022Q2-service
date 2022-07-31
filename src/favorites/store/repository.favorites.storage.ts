@@ -1,30 +1,19 @@
 import { forwardRef, Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-//import { resolve } from 'path';
 import { AlbumsService } from 'src/albums/albums.service';
-//import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ArtistsService } from 'src/artists/artists.service';
-//import { TrackEntity } from 'src/tracks/entities/track.entity';
 import { TracksService } from 'src/tracks/tracks.service';
-//import { ArtistEntity } from 'src/artists/entities/artist.entity';
-//import { TrackEntity } from 'src/tracks/entities/track.entity';
-//import { TracksService } from 'src/tracks/tracks.service';
-//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-//import { TrackEntity } from 'src/tracks/entities/track.entity';
 import { Repository } from 'typeorm';
-import { FavoritesEntityORM } from '../entities/favorites-orm.entity';
-//import { FavoritesEntity } from '../entities/favorites.entity';
-//import { FavoritesResponse } from '../entities/favorites.response';
+import { FavoritesEntity } from '../entities/favorites.entity';
 import { FavoritesStore } from '../interfaces/favorites-storage.interface';
-//import { IFavoritesResponse } from '../interfaces/favorites.response.interface';
 
 @Injectable()
 export class RepositoryFavoritesStorage
   implements FavoritesStore, OnModuleInit
 {
   constructor(
-    @InjectRepository(FavoritesEntityORM)
-    private favoritesRepository: Repository<FavoritesEntityORM>,
+    @InjectRepository(FavoritesEntity)
+    private favoritesRepository: Repository<FavoritesEntity>,
     @Inject(forwardRef(() => TracksService))
     private readonly tracksService: TracksService,
     @Inject(forwardRef(() => AlbumsService))
@@ -36,9 +25,7 @@ export class RepositoryFavoritesStorage
   async onModuleInit() {
     const countFavorites = await this.getCountFavorites();
     if (countFavorites < 1) {
-      const favorites = new FavoritesEntityORM();
-      //favorites.userId = 'id';
-      //const userId = { id: 'id1' };
+      const favorites = new FavoritesEntity();
       const createdFavorites = this.favoritesRepository.create(favorites);
       this.favoritesRepository.save(createdFavorites);
     }
@@ -52,7 +39,7 @@ export class RepositoryFavoritesStorage
     return favorites.length;
   };
 
-  private getFavorites = async (): Promise<FavoritesEntityORM> => {
+  private getFavorites = async (): Promise<FavoritesEntity> => {
     const favorites = await this.favoritesRepository.find({
       relations: { tracks: true, albums: true, artists: true },
     });
@@ -60,15 +47,10 @@ export class RepositoryFavoritesStorage
     return favorites[0];
   };
 
-  getAll = async (): Promise<FavoritesEntityORM> => {
-    //const favoritesORM = new FavoritesEntityORM();
+  getAll = async (): Promise<FavoritesEntity> => {
     const favorites = await this.favoritesRepository.find({
       relations: { tracks: true, albums: true, artists: true },
     });
-    console.log('Favs getAll =' + JSON.stringify(favorites));
-    console.log(
-      '-----------------------------------------------------------------',
-    );
     return favorites[0];
   };
 
@@ -98,7 +80,6 @@ export class RepositoryFavoritesStorage
     const favorites = await this.getFavorites();
     const artist = await this.artistsService.findOne(artistId);
     if (!artist) return false;
-    //favorites.artists.push(artist);
     const artists = favorites.artists;
     artists.push(artist);
     favorites.artists = artists;
@@ -128,15 +109,6 @@ export class RepositoryFavoritesStorage
     await this.favoritesRepository.save(favorites);
     const isDeleted = lengthBefore !== lengthAfter;
     return isDeleted;
-
-    /* //const track = await this.artistsService.findOne(id);
-    const favorites = await this.favoritesRepository.find()[0];
-    const lengthBefore = favorites.albums.length;
-    favorites.albums = favorites.albums.filter((a: string) => a !== id);
-    const lengthAfter = favorites.albums.length;
-    const isDeleted = lengthBefore !== lengthAfter;
-    if (isDeleted) this.favoritesRepository.update(favorites.id, favorites);
-    return isDeleted; */
   };
 
   deleteArtist = async (id: string): Promise<boolean> => {

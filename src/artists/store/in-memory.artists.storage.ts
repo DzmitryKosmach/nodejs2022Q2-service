@@ -2,13 +2,12 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { AlbumsService } from 'src/albums/albums.service';
 import { FavoritesService } from 'src/favorites/favorites.service';
 import { TracksService } from 'src/tracks/tracks.service';
-import { CreateArtistDto } from '../dto/create-artist.dto';
 import { UpdateArtistDto } from '../dto/update-artist.dto';
 import { ArtistEntity } from '../entities/artist.entity';
-import { ArtistsStore } from '../interfaces/artist-storage.interface';
+//import { ArtistsStore } from '../interfaces/artist-storage.interface';
 
 @Injectable()
-export class InMemoryArtistsStorage implements ArtistsStore {
+export class InMemoryArtistsStorage {
   private artists: ArtistEntity[] = [];
 
   constructor(
@@ -41,9 +40,7 @@ export class InMemoryArtistsStorage implements ArtistsStore {
     return artist;
   };
 
-  create = async (dto: CreateArtistDto): Promise<ArtistEntity> => {
-    //const { name, grammy } = dto;
-    console.log(dto);
+  create = async (): Promise<ArtistEntity> => {
     const newArtist = new ArtistEntity();
     this.artists.push(newArtist);
     return newArtist;
@@ -54,8 +51,8 @@ export class InMemoryArtistsStorage implements ArtistsStore {
     this.artists = this.artists.filter((u) => u.id !== id);
     const lengthAfter = this.artists.length;
     const isDeleted = lengthBefore !== lengthAfter;
-    this.tracksService.nullArtist(id);
-    this.albumsService.nullArtist(id);
+    //this.tracksService.nullArtist(id);
+    //this.albumsService.nullArtist(id);
     this.favoritesService.deleteArtist(id);
     return isDeleted;
   };

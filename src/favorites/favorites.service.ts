@@ -1,6 +1,4 @@
 import { Inject, Injectable } from '@nestjs/common';
-//import { CreateFavoritesDto } from './dto/create-favorites.dto';
-//import { UpdateFavoritesDto } from './dto/update-favorites.dto';
 import { FavoritesStore } from './interfaces/favorites-storage.interface';
 
 @Injectable()

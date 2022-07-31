@@ -36,22 +36,15 @@ export class RepositoryUsersStorage implements UsersStore {
   };
 
   create = async (dto: CreateUserDto): Promise<UserEntity> => {
-    //const { login, password } = dto;
-    //const newUser = new UserEntity(login, password);
     const createdUser = this.userRepository.create(dto);
     const savedUser = this.userRepository.save(createdUser);
     return savedUser;
   };
 
   remove = async (id: string): Promise<boolean> => {
-    //const lengthBefore = this.users.length;
-    //this.users = this.users.filter((u) => u.id !== id);
     const deletionRes = await this.userRepository.delete(id);
     if (deletionRes.affected === 0) {
       return false;
     } else return true;
-    //const lengthAfter = this.users.length;
-    //const isDeleted = lengthBefore !== lengthAfter;
-    //return isDeleted;
   };
 }

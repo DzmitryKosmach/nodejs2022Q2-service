@@ -14,8 +14,4 @@ export interface TracksStore {
   remove: (id: string) => Promise<boolean>;
 
   save: (track: TrackEntity) => Promise<void>;
-
-  nullArtist: (id: string) => Promise<void>;
-
-  nullAlbum: (id: string) => Promise<void>;
 }

@@ -1,13 +1,11 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { FavoritesService } from 'src/favorites/favorites.service';
 import { TracksService } from 'src/tracks/tracks.service';
-import { CreateAlbumDto } from '../dto/create-album.dto';
 import { UpdateAlbumDto } from '../dto/update-album.dto';
 import { AlbumEntity } from '../entities/album.entity';
-import { AlbumsStore } from '../interfaces/album-storage.interface';
 
 @Injectable()
-export class InMemoryAlbumsStorage implements AlbumsStore {
+export class InMemoryAlbumsStorage {
   private albums: AlbumEntity[] = [];
 
   constructor(
@@ -38,9 +36,8 @@ export class InMemoryAlbumsStorage implements AlbumsStore {
     return album;
   };
 
-  create = async (dto: CreateAlbumDto): Promise<AlbumEntity> => {
+  create = async (): Promise<AlbumEntity> => {
     //const { name, year, artistId } = dto;
-    console.log(dto);
     const newAlbum = new AlbumEntity();
     this.albums.push(newAlbum);
     return newAlbum;
@@ -51,7 +48,7 @@ export class InMemoryAlbumsStorage implements AlbumsStore {
     this.albums = this.albums.filter((u) => u.id !== id);
     const lengthAfter = this.albums.length;
     const isDeleted = lengthBefore !== lengthAfter;
-    this.tracksService.nullAlbum(id);
+    //this.tracksService.nullAlbum(id);
     this.favoritesService.deleteAlbum(id);
     return isDeleted;
     //removeUserFromTasks(id);

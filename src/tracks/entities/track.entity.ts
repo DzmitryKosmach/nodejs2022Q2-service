@@ -1,8 +1,7 @@
 import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { ArtistEntity } from 'src/artists/entities/artist.entity';
-import { FavoritesEntityORM } from 'src/favorites/entities/favorites-orm.entity';
-//import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 import { Track } from '../interfaces/track.interface';
 
@@ -14,7 +13,6 @@ export class TrackEntity implements Track {
   @Column()
   name: string;
 
-  //@Column('varchar', { length: 36, nullable: true })
   @ManyToOne(() => ArtistEntity, (artist: ArtistEntity) => artist.id, {
     onDelete: 'SET NULL',
     nullable: true,
@@ -22,7 +20,6 @@ export class TrackEntity implements Track {
   })
   artistId: string | null;
 
-  //@Column('varchar', { length: 36, nullable: true })
   @ManyToOne(() => AlbumEntity, (album: AlbumEntity) => album.id, {
     onDelete: 'SET NULL',
     nullable: true,
@@ -33,6 +30,6 @@ export class TrackEntity implements Track {
   @Column()
   duration: number;
 
-  @ManyToOne(() => FavoritesEntityORM, (favorites) => favorites.tracks)
-  favorites: FavoritesEntityORM;
+  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.tracks)
+  favorites: FavoritesEntity;
 }

@@ -6,7 +6,6 @@ import { TracksStore } from './interfaces/track-storage.interface';
 
 @Injectable()
 export class TracksService {
-  [x: string]: any;
   constructor(@Inject('TracksStore') private storage: TracksStore) {}
 
   create(createUserDto: CreateTrackDto) {
@@ -31,13 +30,5 @@ export class TracksService {
 
   save(track: TrackEntity) {
     this.storage.save(track);
-  }
-
-  nullArtist(id: string) {
-    return this.storage.nullArtist(id);
-  }
-
-  nullAlbum(id: string) {
-    return this.storage.nullAlbum(id);
   }
 }

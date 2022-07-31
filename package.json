@@ -20,7 +20,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "gen": "nest generate service albums",
-    "scan:image": "docker scan nest-app"
+    "scan:image": "docker scan nest-app",
+    "migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/MyMigrations",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d ./src/migration.config.ts ./src/migration/MyMigrations",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d ./src/migration.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

@@ -45,12 +45,4 @@ export class RepositoryTracksStorage implements TracksStore {
   save = async (track: TrackEntity) => {
     await this.trackRepository.save(track);
   };
-
-  nullArtist = async (id: string): Promise<void> => {
-    console.log(id);
-  };
-
-  nullAlbum = async (id: string): Promise<void> => {
-    console.log(id);
-  };
 }
