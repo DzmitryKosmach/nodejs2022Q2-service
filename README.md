@@ -1,3 +1,33 @@
+## Prerequisites
+
+Download and install docker.
+Clone repository.
+
+## How to run migrations
+
+Write in console in root folder:
+
+```
+docker-compose up
+```
+
+After error write the command in another console:
+
+```
+npm run migration:run
+```
+
+When the migration is successfully completed, stop the containers in the first console:
+
+```
+ctrl + c
+```
+and repeatedly:
+
+```
+docker-compose up
+```
+
 # Home Library Service
 
 ## Prerequisites
