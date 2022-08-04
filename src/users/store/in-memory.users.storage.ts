@@ -6,6 +6,7 @@ import { UsersStore } from '../interfaces/user-storage.interface';
 
 @Injectable()
 export class InMemoryUsersStorage implements UsersStore {
+  getByLogin: (login: string) => Promise<UserEntity>;
   private users: UserEntity[] = [];
 
   getAll = async (): Promise<UserEntity[]> => {

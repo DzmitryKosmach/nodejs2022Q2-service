@@ -7,6 +7,7 @@ import { FavoritesModule } from 'src/favorites/favorites.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ArtistEntity } from './entities/artist.entity';
 import { RepositoryArtistsStorage } from './store/repository.artists.storage';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 //import { FavoritesModule } from 'src/favorites/favorites.module';
 
 @Module({
@@ -20,6 +21,7 @@ import { RepositoryArtistsStorage } from './store/repository.artists.storage';
   providers: [
     ArtistsService,
     { provide: 'ArtistsStore', useClass: RepositoryArtistsStorage },
+    { provide: 'APP_GUARD', useClass: JwtAuthGuard },
   ],
   exports: [ArtistsService],
 })

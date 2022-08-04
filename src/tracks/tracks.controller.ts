@@ -9,11 +9,13 @@ import {
   Put,
   ParseUUIDPipe,
   HttpCode,
+  UseGuards,
 } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { StatusCodes } from 'http-status-codes';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('track')
 export class TracksController {
@@ -32,12 +34,14 @@ export class TracksController {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() userDto: CreateTrackDto) {
     const artist = await this.tracksService.create(userDto);
     return artist;
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updatePasswordDto: UpdateTrackDto,
@@ -48,6 +52,7 @@ export class TracksController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCodes.NO_CONTENT)
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     const isDeleted = await this.tracksService.remove(id);

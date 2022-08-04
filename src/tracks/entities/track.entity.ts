@@ -13,23 +13,27 @@ export class TrackEntity implements Track {
   @Column()
   name: string;
 
-  @ManyToOne(() => ArtistEntity, (artist: ArtistEntity) => artist.id, {
-    onDelete: 'SET NULL',
-    nullable: true,
-    eager: true,
-  })
+  @Column({ nullable: true })
   artistId: string | null;
 
-  @ManyToOne(() => AlbumEntity, (album: AlbumEntity) => album.id, {
-    onDelete: 'SET NULL',
-    nullable: true,
-    eager: true,
-  })
+  @Column({ nullable: true })
   albumId: string | null;
 
   @Column()
   duration: number;
 
-  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.tracks)
+  @ManyToOne(() => ArtistEntity, (artist) => artist.tracks, {
+    onDelete: 'SET NULL',
+  })
+  artist: ArtistEntity;
+
+  @ManyToOne(() => AlbumEntity, (album) => album.tracks, {
+    onDelete: 'SET NULL',
+  })
+  album: AlbumEntity;
+
+  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.tracks, {
+    onDelete: 'SET NULL',
+  })
   favorites: FavoritesEntity;
 }

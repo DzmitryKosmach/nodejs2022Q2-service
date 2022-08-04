@@ -1,5 +1,13 @@
+import { AlbumEntity } from 'src/albums/entities/album.entity';
 import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { TrackEntity } from 'src/tracks/entities/track.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Artist } from '../interfaces/artist.interface';
 
 @Entity('artist')
@@ -13,9 +21,14 @@ export class ArtistEntity implements Artist {
   @Column()
   grammy: boolean;
 
-  /* @OneToMany(() => TrackEntity, (track) => track.artistId)
-  tracks: TrackEntity[]; */
+  @OneToMany(() => AlbumEntity, (album) => album.artistId)
+  albums: AlbumEntity[];
 
-  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.artists)
+  @OneToMany(() => TrackEntity, (track) => track.artistId)
+  tracks: TrackEntity[];
+
+  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.artists, {
+    onDelete: 'SET NULL',
+  })
   favorites: FavoritesEntity;
 }

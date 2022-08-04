@@ -1,4 +1,5 @@
-//import { v4 as uuid } from 'uuid';
+import * as dotenv from 'dotenv';
+import * as bcrypt from 'bcrypt';
 import {
   Entity,
   Column,
@@ -6,8 +7,15 @@ import {
   VersionColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
+
 import { User } from '../interfaces/user.interface';
+
+dotenv.config();
+
+const { CRYPT_SALT } = process.env;
 
 @Entity('user')
 export class UserEntity implements User {
@@ -36,22 +44,11 @@ export class UserEntity implements User {
   })
   updatedAt: number;
 
-  /* constructor(userLogin: string, userPassword: string) {
-    this.login = userLogin;
-    this.password = userPassword;
-    const timeStamp = this.getTimeStamp();
-    this.createdAt = timeStamp;
-    this.updatedAt = timeStamp;
+  @BeforeInsert()
+  @BeforeUpdate()
+  async generatePasswordHash() {
+    this.password = await bcrypt.hash(this.password, Number(CRYPT_SALT));
   }
-
-  updateTimeStampAndVersion() {
-    this.updatedAt = this.getTimeStamp();
-    this.version = this.version + 1;
-  }
-
-  getTimeStamp() {
-    return new Date().getTime();
-  } */
 
   static toResponse(user: UserEntity): {
     id: string;

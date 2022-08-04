@@ -1,5 +1,13 @@
+import { ArtistEntity } from 'src/artists/entities/artist.entity';
 import { FavoritesEntity } from 'src/favorites/entities/favorites.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { TrackEntity } from 'src/tracks/entities/track.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { Album } from '../interfaces/album.interface';
 
 @Entity('album')
@@ -13,14 +21,19 @@ export class AlbumEntity implements Album {
   @Column()
   year: number;
 
-  @Column('varchar', { length: 36, nullable: true })
-  /* @ManyToOne(() => ArtistEntity, (artist: ArtistEntity) => artist.id, {
-    onDelete: 'SET NULL',
-    nullable: true,
-    eager: true,
-  }) */
+  @Column({ nullable: true })
   artistId: string | null;
 
-  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.albums)
+  @ManyToOne(() => ArtistEntity, (artist) => artist.id, {
+    onDelete: 'SET NULL',
+  })
+  artist: ArtistEntity;
+
+  @OneToMany(() => TrackEntity, (track) => track.albumId)
+  tracks: TrackEntity[];
+
+  @ManyToOne(() => FavoritesEntity, (favorites) => favorites.albums, {
+    onDelete: 'SET NULL',
+  })
   favorites: FavoritesEntity;
 }

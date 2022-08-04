@@ -5,6 +5,7 @@ import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { RepositoryUsersStorage } from './store/repository.users.storage';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -12,6 +13,7 @@ import { RepositoryUsersStorage } from './store/repository.users.storage';
   providers: [
     UsersService,
     { provide: 'UsersStore', useClass: RepositoryUsersStorage },
+    { provide: 'APP_GUARD', useClass: JwtAuthGuard },
   ],
   exports: [UsersService],
 })

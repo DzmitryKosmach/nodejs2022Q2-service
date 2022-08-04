@@ -18,7 +18,7 @@ export default {
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  synchronize: false,
+  synchronize: true,
   retryAttempts: 3,
   logNotifications: true,
   entities: [

@@ -1,7 +1,7 @@
 ## Prerequisites
 
 Download and install docker.
-Clone repository.
+Clone repository. Rename file .env.example to .env
 
 ## How to run migrations
 

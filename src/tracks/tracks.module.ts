@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 //import { FavoritesModule } from 'src/favorites/favorites.module';
 import { TrackEntity } from './entities/track.entity';
 import { RepositoryTracksStorage } from './store/repository.tracks.storage';
@@ -12,6 +13,7 @@ import { TracksService } from './tracks.service';
   providers: [
     TracksService,
     { provide: 'TracksStore', useClass: RepositoryTracksStorage },
+    { provide: 'APP_GUARD', useClass: JwtAuthGuard },
   ],
   exports: [TracksService],
 })

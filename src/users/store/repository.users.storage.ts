@@ -1,5 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdatePasswordDto } from '../dto/update-password.dto';
@@ -22,10 +23,20 @@ export class RepositoryUsersStorage implements UsersStore {
     return user;
   };
 
+  getByLogin = async (userLogin: string): Promise<UserEntity | null> => {
+    const user = this.userRepository.findOne({ where: { login: userLogin } });
+    return user;
+  };
+
   update = async (id: string, dto: UpdatePasswordDto): Promise<UserEntity> => {
     const user = await this.getById(id);
     if (user) {
-      if (user.password === dto.oldPassword) {
+      const isPasswordCorrect = await bcrypt.compare(
+        dto.oldPassword,
+        user.password,
+      );
+      console.log('isPasswordCorrect: ' + isPasswordCorrect);
+      if (isPasswordCorrect) {
         user.password = dto.newPassword;
         await this.userRepository.save(user);
         return user;

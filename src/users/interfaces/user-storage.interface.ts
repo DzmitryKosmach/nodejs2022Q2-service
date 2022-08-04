@@ -7,6 +7,8 @@ export interface UsersStore {
 
   getById: (id: string) => Promise<UserEntity>;
 
+  getByLogin: (login: string) => Promise<UserEntity | null>;
+
   update: (id: string, dto: UpdatePasswordDto) => Promise<UserEntity>;
 
   create: (dto: CreateUserDto) => Promise<UserEntity>;

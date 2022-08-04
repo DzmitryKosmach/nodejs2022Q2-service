@@ -2,6 +2,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AlbumsModule } from 'src/albums/albums.module';
 import { ArtistsModule } from 'src/artists/artists.module';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { TracksModule } from 'src/tracks/tracks.module';
 import { FavoritesEntity } from './entities/favorites.entity';
 import { FavoritesController } from './favorites.controller';
@@ -19,6 +20,7 @@ import { RepositoryFavoritesStorage } from './store/repository.favorites.storage
   providers: [
     FavoritesService,
     { provide: 'FavoritesStore', useClass: RepositoryFavoritesStorage },
+    { provide: 'APP_GUARD', useClass: JwtAuthGuard },
   ],
   exports: [FavoritesService],
 })

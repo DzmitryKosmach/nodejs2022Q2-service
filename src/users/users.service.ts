@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserEntity } from './entities/user.entity';
@@ -39,4 +41,21 @@ export class UsersService {
     user.updatedAt = +user.updatedAt;
     return user;
   }
+
+  findByLoginPassword = async (
+    login: string,
+    password: string,
+  ): Promise<UserEntity | null> => {
+    const user = await this.storage.getByLogin(login);
+    if (!user) return null;
+    const passwordVerification = await bcrypt.compare(password, user.password);
+    if (!passwordVerification) return null;
+    return user;
+  };
+
+  findByLogin = async (login: string): Promise<UserEntity | null> => {
+    const user = await this.storage.getByLogin(login);
+    if (!user) return null;
+    return user;
+  };
 }

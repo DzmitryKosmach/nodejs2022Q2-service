@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumsService } from 'src/albums/albums.service';
 import { ArtistsService } from 'src/artists/artists.service';
@@ -8,9 +8,7 @@ import { FavoritesEntity } from '../entities/favorites.entity';
 import { FavoritesStore } from '../interfaces/favorites-storage.interface';
 
 @Injectable()
-export class RepositoryFavoritesStorage
-  implements FavoritesStore, OnModuleInit
-{
+export class RepositoryFavoritesStorage implements FavoritesStore {
   constructor(
     @InjectRepository(FavoritesEntity)
     private favoritesRepository: Repository<FavoritesEntity>,
@@ -22,36 +20,34 @@ export class RepositoryFavoritesStorage
     private readonly artistsService: ArtistsService,
   ) {}
 
-  async onModuleInit() {
+  /* async onModuleInit() {
     const countFavorites = await this.getCountFavorites();
     if (countFavorites < 1) {
       const favorites = new FavoritesEntity();
       const createdFavorites = this.favoritesRepository.create(favorites);
       this.favoritesRepository.save(createdFavorites);
     }
-  }
-
-  private getCountFavorites = async (): Promise<number> => {
-    const favorites = await this.favoritesRepository.find({
-      relations: { tracks: true, albums: true, artists: true },
-    });
-
-    return favorites.length;
-  };
+  } */
 
   private getFavorites = async (): Promise<FavoritesEntity> => {
-    const favorites = await this.favoritesRepository.find({
+    const favorites = await this.favoritesRepository.findOne({
+      where: {},
       relations: { tracks: true, albums: true, artists: true },
     });
 
-    return favorites[0];
+    if (favorites) return favorites;
+
+    const createdFavorites = this.favoritesRepository.create({
+      artists: [],
+      albums: [],
+      tracks: [],
+    });
+
+    return await this.favoritesRepository.save(createdFavorites);
   };
 
   getAll = async (): Promise<FavoritesEntity> => {
-    const favorites = await this.favoritesRepository.find({
-      relations: { tracks: true, albums: true, artists: true },
-    });
-    return favorites[0];
+    return await this.getFavorites();
   };
 
   addTrack = async (trackId: string): Promise<boolean> => {
