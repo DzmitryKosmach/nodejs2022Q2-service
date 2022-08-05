@@ -35,7 +35,6 @@ export class RepositoryUsersStorage implements UsersStore {
         dto.oldPassword,
         user.password,
       );
-      console.log('isPasswordCorrect: ' + isPasswordCorrect);
       if (isPasswordCorrect) {
         user.password = dto.newPassword;
         await this.userRepository.save(user);

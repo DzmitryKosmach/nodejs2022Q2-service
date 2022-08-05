@@ -9,13 +9,11 @@ import {
   Put,
   ParseUUIDPipe,
   HttpCode,
-  UseGuards,
 } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { StatusCodes } from 'http-status-codes';
-import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 @Controller('album')
 export class AlbumsController {

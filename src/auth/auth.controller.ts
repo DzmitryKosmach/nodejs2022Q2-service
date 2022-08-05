@@ -1,9 +1,16 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { Public } from 'src/public';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { LoginPasswordDto } from './dto/login-password.dto';
+import { IAuthAnswer } from './interfaces/auth-answer.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -21,23 +28,35 @@ export class AuthController {
 
   @Post('/login')
   @Public()
-  async getToken(@Body() loginPasswordDto: LoginPasswordDto) {
+  async getTokens(@Body() loginPasswordDto: LoginPasswordDto) {
     const { login, password } = loginPasswordDto;
-    const authAnswer = await this.authService.getToken(login, password);
+    const accessToken = await this.authService.getAccessToken(login, password);
+    const refreshToken = await this.authService.getRefreshToken();
+    const authAnswer: IAuthAnswer = {
+      accessToken: accessToken.accessToken,
+      refreshToken: refreshToken.token,
+    };
+    await this.authService.saveRefreshToken(refreshToken.id, accessToken.id);
     return authAnswer;
   }
 
-  //https://www.bezkoder.com/jwt-refresh-token-node-js/
   @Post('/refresh')
-  async getTokens(@Body() bodyRefreshToken: { refreshToken: string }) {
+  @Public()
+  async getRefreshTokens(@Body() bodyRefreshToken: { refreshToken: string }) {
     const { refreshToken } = bodyRefreshToken;
 
-    console.log('@Post(/refresh): ' + refreshToken);
-
-    /* const token = await this.authService.getToken(login, password);
-    if (!token) {
-      throw new ForbiddenException();
+    if (!refreshToken) {
+      throw new HttpException('Invalid token!', HttpStatus.FORBIDDEN);
     }
-    return { token }; */
+
+    const userId = await this.authService.checkRefreshToken(refreshToken);
+    const accessToken = await this.authService.getAccessTokenByUserId(userId);
+    const newRefreshToken = await this.authService.getRefreshToken();
+    const authAnswer: IAuthAnswer = {
+      accessToken: accessToken.accessToken,
+      refreshToken: newRefreshToken.token,
+    };
+    this.authService.saveRefreshToken(newRefreshToken.id, accessToken.id);
+    return authAnswer;
   }
 }
