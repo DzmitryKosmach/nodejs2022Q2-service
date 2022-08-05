@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  HttpCode,
   HttpException,
   HttpStatus,
   Post,
 } from '@nestjs/common';
+import { StatusCodes } from 'http-status-codes';
 import { Public } from 'src/public';
 import { UserEntity } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -27,6 +29,7 @@ export class AuthController {
   }
 
   @Post('/login')
+  @HttpCode(StatusCodes.OK)
   @Public()
   async getTokens(@Body() loginPasswordDto: LoginPasswordDto) {
     const { login, password } = loginPasswordDto;
@@ -41,12 +44,16 @@ export class AuthController {
   }
 
   @Post('/refresh')
+  @HttpCode(StatusCodes.OK)
   @Public()
   async getRefreshTokens(@Body() bodyRefreshToken: { refreshToken: string }) {
     const { refreshToken } = bodyRefreshToken;
 
     if (!refreshToken) {
-      throw new HttpException('Invalid token!', HttpStatus.FORBIDDEN);
+      throw new HttpException(
+        'No refreshToken in body',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const userId = await this.authService.checkRefreshToken(refreshToken);
