@@ -1,3 +1,8 @@
+## Prerequisites
+
+Download and install docker.
+Clone repository. Rename file .env.example to .env
+
 # Home Library Service
 
 ## Prerequisites
