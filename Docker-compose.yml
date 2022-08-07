@@ -8,9 +8,8 @@ services:
       - ${PORT}:${PORT}
     working_dir: /app
     volumes: 
-      - type: bind
-        source: ./src
-        target: /app/src
+      - ./src:/app/src
+      - ./logs:/app/logs
     networks:
       - net
     depends_on:

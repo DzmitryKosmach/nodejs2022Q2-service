@@ -10,6 +10,8 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configService from './ormconfig';
 import { AuthModule } from './auth/auth.module';
+import { AppLogger } from './middlewares/logger/logger.module';
+import { ErrorLogger } from './middlewares/errorLogger/errorLogging.middleware';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { AuthModule } from './auth/auth.module';
     AlbumsModule,
     FavoritesModule,
     AuthModule,
+    AppLogger,
+    ErrorLogger,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(configService),
   ],

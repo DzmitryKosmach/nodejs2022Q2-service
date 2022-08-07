@@ -11,6 +11,7 @@ import {
   HttpCode,
   UseGuards,
 } from '@nestjs/common';
+//import onFinished from 'on-finished';
 import { StatusCodes } from 'http-status-codes';
 
 import { ArtistsService } from './artists.service';
@@ -24,6 +25,7 @@ export class ArtistsController {
   @Get()
   async findAll() {
     const users = await this.artistsService.findAll();
+    //console.log('Finished: ' + typeof onFinished);
     return users;
   }
 
