@@ -1,5 +1,6 @@
-import { appendFileSync } from 'fs';
+import { appendFileSync, statSync, existsSync, unlinkSync } from 'fs';
 import { Response } from 'express';
+import * as dotenv from 'dotenv';
 import {
   ArgumentsHost,
   Catch,
@@ -9,7 +10,10 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 
+dotenv.config();
+
 const newLineChar = process.platform === 'win32' ? '\r\n' : '\n';
+const { FILE_SIZE_ROTATE_KB } = process.env;
 
 @Catch()
 export class ErrorLogger implements ExceptionFilter {
@@ -26,11 +30,15 @@ export class ErrorLogger implements ExceptionFilter {
 
     const errorMessage = (exception as Error).message;
 
-    /* const responseBody = {
-      statusCode: httpStatus,
-      timestamp: new Date().toISOString(),
-      path: httpAdapter.getRequestUrl(ctx.getRequest()),
-    }; */
+    const logErrorFile = __dirname + '/../../../logs/error_log.txt';
+
+    if (existsSync(logErrorFile)) {
+      const stats = statSync(logErrorFile);
+      const fileSizeKb = stats.size / 1024;
+      if (fileSizeKb > Number(FILE_SIZE_ROTATE_KB)) {
+        unlinkSync(logErrorFile);
+      }
+    }
 
     try {
       const errorLogInfo = `${new Date().toUTCString()}; [${
@@ -38,7 +46,7 @@ export class ErrorLogger implements ExceptionFilter {
       }] url: ${
         request.url
       }; status: ${httpStatus}; message error: ${errorMessage};${newLineChar}`;
-      appendFileSync(__dirname + '/../../../logs/error_log.txt', errorLogInfo);
+      appendFileSync(logErrorFile, errorLogInfo);
       Logger.error(errorLogInfo);
     } catch (error) {
       const errorLogInfo = `${new Date().toUTCString()}; status: ${
@@ -46,7 +54,7 @@ export class ErrorLogger implements ExceptionFilter {
       }; ${request.method} ${request.url}; error: ${
         (exception as Error).stack
       };${newLineChar}`;
-      appendFileSync(__dirname + '/../../../logs/error_log.txt', errorLogInfo);
+      appendFileSync(logErrorFile, errorLogInfo);
       Logger.error(errorLogInfo);
     }
 

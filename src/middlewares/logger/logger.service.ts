@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { appendFileSync, statSync } from 'fs';
-//import filesize from 'filesize';
+import { appendFileSync, statSync, existsSync, unlinkSync } from 'fs';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 import {
   Injectable,
@@ -12,6 +14,8 @@ import {
 } from '@nestjs/common';
 
 const newLineChar = process.platform === 'win32' ? '\r\n' : '\n';
+const { FILE_SIZE_ROTATE_KB } = process.env;
+
 
 @Injectable()
 export class LoggingService implements NestMiddleware {
@@ -33,11 +37,18 @@ export class LoggingService implements NestMiddleware {
 
       const logFile = __dirname + '/../../../logs/log_info.txt';
 
-      appendFileSync(logFile, logInfo);
+      //checkFileForRotate(logFile);
 
-      const stats = statSync(logFile);
-      //const fileSizeInMb = filesize(stats.size, { round: 0 });
-      process.stdout.write('File size = ' + stats.size);
+      if (existsSync(logFile)) {
+        const stats = statSync(logFile);
+        const fileSizeKb = stats.size / 1024;
+        //process.stdout.write('checkFileForRotate: ' + +fileSizeKb);
+        if (fileSizeKb > Number(FILE_SIZE_ROTATE_KB)) {
+          unlinkSync(logFile);
+        }
+      }
+
+      appendFileSync(logFile, logInfo);
 
       Logger.log(logInfo);
     });
