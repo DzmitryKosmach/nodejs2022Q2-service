@@ -3,12 +3,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ErrorLogger } from './middlewares/errorLogger/errorLogging.middleware';
-//import { loggingLevel } from './logging.level';
 
 const { LOGGING_LEVEL } = process.env;
 
 async function bootstrap() {
-  //const loggLevel = loggingLevel.slice(0, Number(LOGGING_LEVEL));
   const app = await NestFactory.create(AppModule, {
     logger:
       LOGGING_LEVEL === '1'
