@@ -1,0 +1,1 @@
+export const loggingLevel = ['log', 'debug', 'error', 'verbose', 'warn'];
